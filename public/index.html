@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <title>cathook IPC Web Panel</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="vgui.css">
+        <script src="bundle.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const modal = document.getElementById('setup-modal');
+                const closeBtn = document.getElementById('modal-close');
+                const understandBtn = document.getElementById('modal-understand');
+
+                // Check if user has permanently closed the modal
+                if (localStorage.getItem('setupModalClosed')) {
+                    modal.style.display = 'none';
+                }
+
+                // Close button (X) - temporary close
+                closeBtn.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+
+                // OK button - permanent close
+                understandBtn.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                    localStorage.setItem('setupModalClosed', 'true');
+                });
+            });
+        </script>
+    </head>
+    <body class="vgui-container vgui-font">
+        <div id="setup-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-close" id="modal-close">×</div>
+                <h2>Setup Instructions</h2>
+                <p>Run these commands in order:</p>
+                <ol>
+                    <li><code>./install-catbots</code></li>
+                    <li><code>./update</code></li>
+                    <li><code>./install-instances</code></li>
+                </ol>
+                <br>
+                <p>For more bots: Copy <code>user-instances/b0</code> and rename to <code>b1</code>, <code>b2</code>, etc.</p>
+                <p>Remember to add cat_autoexec_textmode in your TF2 cfg files folder and install navmeshes.</p>
+                <p class="warning">Note: The panel does not support Russian characters - using them will cause crashes.</p>
+                <p class="warning" style="color: red;">Warning: Currently there's a banwave ongoing, be ready to make new accounts everyday. You need to do it to make Valve feel like it's Sisyphus work and stop banning.</p>
+                <input type="button" id="modal-understand" value="OK" class="vgui-button-centered">
+            </div>
+        </div>
+        <h1>cathook IPC Web Panel</h1>
+        <div id="container-login" class="vgui-outset">
+            If you don't see any data, please login using the password shown in console and refresh the page
+            <input id="api-password" type="text" placeholder="Password">
+            <input id="api-login-button" type="button" value="Login">
+        </div>
+        <br>
+        <div id="console-container">
+            <span><input type="text" id="console" placeholder="command for every client" size=64 class="vgui-border-inset"></span>
+            <input type="button" id="console-send" value="Submit" class="vgui-border-out">
+        </div>
+        <br>
+        <div id="status" class="nohighlight">
+            <span>Status: </span><span id="status-text">initializing</span>
+        </div>
+        <div>
+            <input type="button" id="bot-restartall" value="Restart all"> <input type="button" id="bot-terminateall" value="Terminate all"> <input type="button" id="bot-refresh" value="Refresh bot list"> <input id="bot-quota" value="3"> <input id="bot-quota-apply" type="button" value="Apply quota"> <span class="vgui-outset" style="display: inline-block; margin-left: 4px; line-height: 19px; padding: 0 3px;">Max concurrent: <input id="bot-concurrent" value="3" style="width: 30px; margin: 0 2px;"></span> <input id="bot-concurrent-apply" type="button" value="Apply">
+        </div>
+        <br>
+        <div id="table-container">
+            <table id="clients" class="vgui-table vgui-inset">
+                <tr>
+                    <td>Actions</td>
+                    <td>Restarts</td>
+                    <td>Bot Name</td>
+                    <td>State</td>
+                    <td>Steam</td>
+                    <td>Uptime</td>
+                    <td>PID</td>
+                    <td>ID</td>
+                    <td>IPC Status</td>
+                    <td>Name</td>
+                    <td>Queue</td>
+                    <td>Total Score</td>
+                    <td>Score</td>
+                    <td>Shots</td>
+                    <td>Hit %</td>
+                    <td>Head %</td>
+                    <td>Connected</td>
+                    <td>Alive?</td>
+                    <td>Team</td>
+                    <td>Class</td>
+                    <td>Health</td>
+                    <td>Server IP</td>
+                    <td>Current map</td>
+                    <td>Players</td>
+                    <td>Bots</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <div class="nopad vmiddle">
+                <input type="checkbox" id="autorestart-bots" checked>Auto-restart nonresponsive bots</input>
+            </div>
+        </div>
+        <div id="footer">
+            <hr>
+            <span class="nohighlight">
+               Mistakes Multiplied, 2025 | <a href="https://github.com/MistakesMultiplied" target="_blank">github</a>
+            </span>
+        </div>
+    </body>
+</html>
