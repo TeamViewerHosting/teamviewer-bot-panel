@@ -33,7 +33,7 @@ class InjectManager {
     }
     injected(pid) {
         var maps = fs.readFileSync(`/proc/${pid}/maps`).toString();
-        return (maps.indexOf('cathook') > 0);
+        return (maps.indexOf('teamviewer') > 0);
     }
 }
 

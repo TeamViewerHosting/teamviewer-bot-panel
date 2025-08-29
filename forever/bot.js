@@ -19,7 +19,7 @@ const LAUNCH_OPTIONS_GAME_RUNTIME = LAUNCH_OPTIONS_GAME.replace("%REPLACE_RUNTIM
 // Adjust these values as needed to optimize catbot performance
 // How long to wait for the TF2 process to be created by firejail
 const TIMEOUT_START_GAME = 10000;
-// Timeout for cathook to connect to the IPC server once injected
+// Timeout for teamviewer to connect to the IPC server once injected
 const TIMEOUT_IPC_STATE = 90000;
 // Time to wait for steam to be "ready"
 const TIMEOUT_STEAM_RUNNING = 90000;
@@ -299,14 +299,14 @@ class Bot extends EventEmitter {
         this.restarts++;
 
         var filename = `/tmp/.gl${makeid(6)}`;
-        fs.copyFileSync("/opt/cathook/bin/libcathook-textmode.so", filename);
+        fs.copyFileSync("/opt/teamviewer/bin/libteamviewer-textmode.so", filename);
 
         clearSourceLockFiles();
 
         self.procFirejailGame = child_process.spawn((this.nativeSteam ? LAUNCH_OPTIONS_GAME_NATIVE : LAUNCH_OPTIONS_GAME_RUNTIME).replace("$GAMEPATH", path.relative(self.home, self.tf2Path).replace(/(\s+)/g, '\\$1'))
             // Firejail jail name used by this users steam
             .replace("%JAILNAME%", self.name)
-            // cathook
+            // teamviewer
             .replace("%LD_PRELOAD%", `"${filename}:${process.env.STEAM_LD_PRELOAD}"`)
             // XORG display
             .replace("%DISPLAY%", process.env.DISPLAY)
